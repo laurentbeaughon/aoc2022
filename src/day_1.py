@@ -5,7 +5,7 @@ def part_1(data, verbose):
     max = 0
     for calories in data:
         if sum(calories) > max:
-            max=sum(calories)
+            max = sum(calories)
     return max
 
 
