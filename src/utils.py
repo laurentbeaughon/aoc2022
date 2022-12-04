@@ -31,3 +31,12 @@ def read_ruckstacks(file):
         middle = len(line.strip()) // 2
         output.append((line[:middle], line[middle:]))
     return output
+
+
+def read_pairs(file):
+    output = []
+    with open(file) as f:
+        lines = f.read().splitlines()
+    for line in lines:
+        output.append([int(i) for pair in line.split(",") for i in pair.split("-")])
+    return output
