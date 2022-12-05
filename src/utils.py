@@ -1,3 +1,6 @@
+import re
+
+
 def read_batch_integers(file):
     output = []
     with open(file) as f:
@@ -40,3 +43,24 @@ def read_pairs(file):
     for line in lines:
         output.append([int(i) for pair in line.split(",") for i in pair.split("-")])
     return output
+
+
+def read_crates(file):
+    with open(file) as f:
+        lines = f.read().splitlines()
+    n_crates = len(lines[0]) // 4 + 1  # last crates has a length of 3
+    crates = {f"{i + 1}": [] for i in range(n_crates)}
+    commands = []
+    first_part = True
+    for line in lines:
+        if line == "" or line[1] == "1":
+            first_part = False
+            continue
+        if first_part:
+            for i in range(n_crates):
+                letter = line[4 * i + 1]
+                if letter != " ":
+                    crates[str(i + 1)].insert(0, letter)
+        else:
+            commands.append([int(i) for i in re.findall(r"\d+", line)])
+    return crates, commands
