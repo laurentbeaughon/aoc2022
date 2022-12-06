@@ -64,3 +64,9 @@ def read_crates(file):
         else:
             commands.append([int(i) for i in re.findall(r"\d+", line)])
     return crates, commands
+
+
+def read_raw_txt(file):
+    with open(file) as f:
+        raw = f.read().strip()
+    return raw
