@@ -70,3 +70,35 @@ def read_raw_txt(file):
     with open(file) as f:
         raw = f.read().strip()
     return raw
+
+
+def read_filesystem(file):
+    def get_dic_path(dic, path):
+        return get_dic_path(dic[path[0]], path[1:]) if path else dic
+
+    with open(file) as f:
+        lines = f.read().splitlines()
+
+    filesystem = {"/": {}}
+    path = []
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        if line[:4] == "$ ls":
+            while i + 1 < len(lines) and lines[i + 1][0] != "$":
+                i += 1
+                line = lines[i]
+                if line[:3] == "dir":
+                    get_dic_path(filesystem, path)[line[4:]] = {}
+                else:
+                    size, filename = line.split()
+                    get_dic_path(filesystem, path)[filename] = int(size)
+        elif line[:7] == "$ cd ..":
+            path.pop()
+        elif line[:4] == "$ cd":
+            get_dic_path(filesystem, path)[line[5:]] = get_dic_path(
+                filesystem, path
+            ).get(line[5:], {})
+            path.append(line[5:])
+        i += 1
+    return filesystem
