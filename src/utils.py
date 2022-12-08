@@ -102,3 +102,9 @@ def read_filesystem(file):
             path.append(line[5:])
         i += 1
     return filesystem
+
+
+def read_integers_map(file):
+    with open(file) as f:
+        output = [[int(i) for i in line] for line in f.read().splitlines()]
+    return output
