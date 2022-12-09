@@ -108,3 +108,9 @@ def read_integers_map(file):
     with open(file) as f:
         output = [[int(i) for i in line] for line in f.read().splitlines()]
     return output
+
+
+def read_movements(file):
+    with open(file) as f:
+        output = [(a[0], int(a[1:])) for a in f.read().splitlines()]
+    return output
