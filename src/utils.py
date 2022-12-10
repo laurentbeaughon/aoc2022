@@ -41,7 +41,9 @@ def read_pairs(file):
     with open(file) as f:
         lines = f.read().splitlines()
     for line in lines:
-        output.append([int(i) for pair in line.split(",") for i in pair.split("-")])
+        output.append(
+            [int(i) for pair in line.split(",") for i in pair.split("-")],
+        )
     return output
 
 
@@ -97,7 +99,8 @@ def read_filesystem(file):
             path.pop()
         elif line[:4] == "$ cd":
             get_dic_path(filesystem, path)[line[5:]] = get_dic_path(
-                filesystem, path
+                filesystem,
+                path,
             ).get(line[5:], {})
             path.append(line[5:])
         i += 1
@@ -113,4 +116,11 @@ def read_integers_map(file):
 def read_movements(file):
     with open(file) as f:
         output = [(a[0], int(a[1:])) for a in f.read().splitlines()]
+    return output
+
+
+def read_cpu_instructions(file):
+    with open(file) as f:
+        lines = f.read().splitlines()
+        output = [0 if line == "noop" else int(line[5:]) for line in lines]
     return output
