@@ -124,3 +124,35 @@ def read_cpu_instructions(file):
         lines = f.read().splitlines()
         output = [0 if line == "noop" else int(line[5:]) for line in lines]
     return output
+
+
+def read_monkey_notes(file):
+    def read_monkey_note(lines):
+        items = [int(x) for x in lines[1][18:].split(", ")]
+        if lines[2][23] == "+":
+            operation = "add"
+        elif lines[2][23] == "*":
+            operation = "multiply"
+        if lines[2][23:] == "* old":
+            operation = "square"
+            operation_value = None
+        else:
+            operation_value = int(lines[2][25:])
+        test = int(lines[3][21:])
+        true = int(lines[4][28:])
+        false = int(lines[5][29:])
+        return {
+            "items": items,
+            "operation": operation,
+            "operation_value": operation_value,
+            "test": test,
+            "true": true,
+            "false": false,
+        }
+
+    monkeys_data = []
+    with open(file) as f:
+        lines = f.read().splitlines()
+        for i in range(len(lines) // 7 + 1):
+            monkeys_data.append(read_monkey_note(lines[7 * i : 7 * (i + 1)]))
+    return monkeys_data
