@@ -156,3 +156,8 @@ def read_monkey_notes(file):
         for i in range(len(lines) // 7 + 1):
             monkeys_data.append(read_monkey_note(lines[7 * i : 7 * (i + 1)]))
     return monkeys_data
+
+
+def read_strings(file):
+    with open(file) as f:
+        return f.read().splitlines()
