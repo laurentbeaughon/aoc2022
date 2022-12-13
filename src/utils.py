@@ -161,3 +161,19 @@ def read_monkey_notes(file):
 def read_strings(file):
     with open(file) as f:
         return f.read().splitlines()
+
+
+def read_pair_lists_characters(file):
+    with open(file) as f:
+        data = f.read().strip()
+        data = data.replace("[", "[,").replace("]", ",]").split("\n\n")
+    output = []
+    for lists in data:
+        list1, list2 = lists.split("\n")
+        output.append(
+            [
+                [int(x) if x.isdigit() else x for x in list1.split(",") if x],
+                [int(x) if x.isdigit() else x for x in list2.split(",") if x],
+            ],
+        )
+    return output
