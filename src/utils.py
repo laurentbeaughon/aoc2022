@@ -177,3 +177,15 @@ def read_pair_lists_characters(file):
             ],
         )
     return output
+
+
+def read_rock_structures(file):
+    with open(file) as f:
+        lines = f.read().splitlines()
+    return [
+        [
+            (int(pos.split(",")[0]), int(pos.split(",")[1]))
+            for pos in re.split(" -> ", line)
+        ]
+        for line in lines
+    ]
