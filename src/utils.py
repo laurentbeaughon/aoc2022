@@ -189,3 +189,10 @@ def read_rock_structures(file):
         ]
         for line in lines
     ]
+
+
+def read_sensors(file):
+    with open(file) as f:
+        lines = f.read().splitlines()
+    pos = [[int(d) for d in re.findall("-?\d+", line)] for line in lines]
+    return [[(r[0], r[1]), (r[2], r[3])] for r in pos]
