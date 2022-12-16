@@ -196,3 +196,15 @@ def read_sensors(file):
         lines = f.read().splitlines()
     pos = [[int(d) for d in re.findall("-?\d+", line)] for line in lines]
     return [[(r[0], r[1]), (r[2], r[3])] for r in pos]
+
+
+def read_valve(file):
+    valves = {}
+
+    with open(file) as f:
+        lines = f.read().splitlines()
+    for line in lines:
+        flow_rate = re.findall("\d+", line)[0]
+        paths = re.findall("[A-Z]+", line)[2:]
+        valves[line[6:8]] = [int(flow_rate), paths]
+    return valves
