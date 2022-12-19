@@ -208,3 +208,24 @@ def read_valve(file):
         paths = re.findall("[A-Z]+", line)[2:]
         valves[line[6:8]] = [int(flow_rate), paths]
     return valves
+
+
+def read_xyz_pos(file):
+    with open(file) as f:
+        lines = f.read().splitlines()
+    return {tuple(int(x) for x in line.split(",")) for line in lines}
+
+
+def read_robots_setups(file):
+    with open(file) as f:
+        lines = f.read().splitlines()
+    numbers = [re.findall(r"\d+", line) for line in lines]
+    return [
+        {
+            "ore": int(n[1]),
+            "clay": int(n[2]),
+            "obsidian": (int(n[3]), int(n[4])),
+            "geode": (int(n[5]), int(n[6])),
+        }
+        for n in numbers
+    ]
