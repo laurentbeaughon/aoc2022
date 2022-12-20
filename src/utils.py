@@ -229,3 +229,8 @@ def read_robots_setups(file):
         }
         for n in numbers
     ]
+
+
+def read_integers(file):
+    with open(file) as f:
+        return [int(line) for line in f.read().splitlines()]
