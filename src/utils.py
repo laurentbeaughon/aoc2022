@@ -234,3 +234,22 @@ def read_robots_setups(file):
 def read_integers(file):
     with open(file) as f:
         return [int(line) for line in f.read().splitlines()]
+
+
+def read_monkey_operations(file):
+    with open(file) as f:
+        lines = f.read().splitlines()
+    output = {}
+    for line in lines:
+        monkey = line[:4]
+        if line[6:].isdigit():
+            output[monkey] = ("val", int(line[6:]))
+        elif line[11] == "+":
+            output[monkey] = ("sum", [line[6:10], line[13:]])
+        elif line[11] == "-":
+            output[monkey] = ("min", [line[6:10], line[13:]])
+        elif line[11] == "*":
+            output[monkey] = ("mul", [line[6:10], line[13:]])
+        elif line[11] == "/":
+            output[monkey] = ("div", [line[6:10], line[13:]])
+    return output
