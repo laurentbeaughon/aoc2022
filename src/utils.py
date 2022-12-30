@@ -253,3 +253,62 @@ def read_monkey_operations(file):
         elif line[11] == "/":
             output[monkey] = ("div", [line[6:10], line[13:]])
     return output
+
+
+def read_map_and_path(file):
+    with open(file) as f:
+        lines = f.read().splitlines()
+    map = [
+        [
+            -1
+            for _ in range(max([len(line) for line in lines[:-2]]))
+        ] 
+        for _ in range(len(lines) - 2)
+    ]
+    for i, line in enumerate(lines):
+        for j, char in enumerate(line):
+            if char == ".":
+                map[i][j] = 0
+            elif char == "#":
+                map[i][j] = 1
+    commands = []
+    direction = 0
+    val = 0
+    for char in lines[-1]:
+        if char.isdigit():
+            val = val*10 + int(char)
+        else:
+            commands.append((val, direction))
+            val = 0
+        if char == "R":
+            direction = (direction + 1) % 4
+        if char == "L":
+            direction = (direction - 1) % 4
+    if val != 0:
+        commands.append((val, direction))
+    return map, commands
+
+
+def read_elves_pos(file):
+    with open(file) as f:
+        lines = f.read().splitlines()
+    return {(i, j) for i in range(len(lines)) for j in range(len(lines[i])) if lines[i][j] == "#"}
+
+
+def read_wind_map(file):
+    with open(file) as f:
+        lines = f.read().splitlines()
+
+    m = {
+        "<":(0,-1),
+        ">":(0,1),
+        "v":(1,0),
+        "^":(-1,0)
+    }
+
+    return [
+        [i-1, j-1, m[lines[i][j]]]
+        for i in range(1,len(lines)-1)
+        for j in range(1,len(lines[0])-1)
+        if lines[i][j] != "."
+    ], (len(lines)-2, len(lines[0])-2)
